@@ -13,11 +13,17 @@ const routes = [
   },
   {
     path: '/login',
-    component: Login
+    component: Login,
+    meta: {
+      title: '芝士 | 登录'
+    }
   },
   {
     path: '/home',
-    component: Home
+    component: Home,
+    meta: {
+      title: '芝士管理系统'
+    }
   },
 ]
 
@@ -27,6 +33,8 @@ const router = new VueRouter({
 
 // 挂载路由导航守卫
 router.beforeEach((to, from, next) => {
+  // 网页标题为对应路由的title值
+  window.document.title = to.meta.title;
   // 如果直接访问的是登录页面
   if (to.path === '/login') {
     next();
