@@ -7,6 +7,13 @@ import './assets/fonts/iconfont.css'
 // 导入全局样式表
 import './assets/css/global.css'
 
+// 导入axios
+import axios from 'axios'
+// 配置请求根路径
+axios.defaults.baseURL = 'http://127.0.0.1:9000/api/private/v1/'
+// 把axios组件挂载到Vue原型对象上
+Vue.prototype.$http = axios
+
 Vue.config.productionTip = false
 
 new Vue({
