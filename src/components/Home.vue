@@ -11,37 +11,56 @@
     <!-- 页面主体 -->
     <el-container>
       <!-- 侧边栏 -->
-      <el-aside width="200px">
+      <el-aside :width="isCollapse ? '64px' : '200px'">
+        <!-- 侧边栏展开和折叠 -->
+        <div class="toggle-button" @click="toggleCollapse()">|||</div>
         <!-- 侧边栏导航 -->
+        <!-- unique-opened 是否保持一个菜单栏打开 ，直接简写成unique-opened时值为true-->
+        <!-- collapse 是否折叠侧边栏 -->
         <el-menu
           background-color="#333744"
           text-color="#fff"
-          active-text-color="#ffd04b"
+          active-text-color="#409eff"
+          :unique-opened="true"
+          :collapse="isCollapse"
+          :collapse-transition="false"
         >
           <!-- 一级菜单 -->
-          <el-submenu index="1">
+          <!-- 因为index只能接收字符串，所以需要把item.id转化为字符串 -->
+          <el-submenu
+            :index="item.id.toString()"
+            v-for="item in menusList"
+            :key="item.id"
+          >
             <!-- 一级菜单模版 -->
             <template slot="title">
               <!-- 图标 -->
-              <i class="el-icon-location"></i>
+              <i :class="iconObj[item.id]"></i>
               <!-- 菜单名 -->
-              <span>导航一</span>
+              <span>{{ item.authName }}</span>
             </template>
             <!-- 二级菜单 -->
-            <el-menu-item index="1-4-1">
+            <el-menu-item
+              :index="chilItem.id.toString()"
+              v-for="chilItem in item.children"
+              :key="chilItem.id"
+            >
               <!-- 二级菜单模版 -->
               <template slot="title">
                 <!-- 图标 -->
-                <i class="el-icon-location"></i>
+                <i class="el-icon-menu"></i>
                 <!-- 菜单名 -->
-                <span>导航一</span>
+                <span>{{ chilItem.authName }}</span>
               </template>
             </el-menu-item>
           </el-submenu>
         </el-menu>
       </el-aside>
       <!-- 右侧内容主体 -->
-      <el-main>Main</el-main>
+      <el-main>
+        <!-- 路由占位符 -->
+        <router-view></router-view>
+      </el-main>
     </el-container>
   </el-container>
 </template>
@@ -49,6 +68,25 @@
 <script>
 export default {
   name: 'Home',
+  data() {
+    return {
+      // 左侧菜单数据
+      menusList: [],
+      // 通过id来对应所需的icon图标
+      iconObj: {
+        125: 'iconfont icon-user',
+        103: 'iconfont icon-tijikongjian',
+        101: 'iconfont icon-shangpin',
+        102: 'iconfont icon-danju',
+        145: 'iconfont icon-baobiao',
+      },
+      // 侧边栏是否折叠 false为不折叠
+      isCollapse: false,
+    }
+  },
+  created() {
+    this.getMenusList()
+  },
   methods: {
     // 退出功能
     logout() {
@@ -56,6 +94,19 @@ export default {
       window.sessionStorage.clear()
       // 重定向到登录页
       this.$router.push('/login')
+    },
+    // 获取左侧的菜单
+    async getMenusList() {
+      const { data: res } = await this.$http.get('menus')
+      if (res.meta.status !== 200) {
+        this.$message.error(res.meta.msg)
+      } else {
+        this.menusList = res.data
+      }
+    },
+    // 点击按钮，实现侧边栏折叠和展开
+    toggleCollapse() {
+      this.isCollapse = !this.isCollapse
     },
   },
 }
@@ -85,8 +136,23 @@ export default {
 }
 .el-aside {
   background-color: #333744;
+  .el-menu {
+    border-right: none;
+  }
 }
 .el-main {
   background-color: #eaedf1;
+}
+.iconfont {
+  margin-right: 10px;
+}
+.toggle-button {
+  background-color: #4a5064;
+  font-size: 10px;
+  line-height: 24px;
+  color: #fff;
+  text-align: center;
+  letter-spacing: 0.2em;
+  cursor: pointer;
 }
 </style>
