@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Login from '../components/Login'
 import Home from '../components/Home'
 import Welcome from '../components/Welcome'
+import Users from '../components/user/Users'
 
 Vue.use(VueRouter)
 
@@ -16,25 +17,32 @@ const routes = [
     path: '/login',
     component: Login,
     meta: {
-      title: '芝士 | 登录'
+      title: '登录 | 芝士管理系统',
     }
   },
   {
     path: '/home',
     component: Home,
     redirect: '/welcome',
+    meta: {
+      title: '主页 | 芝士管理系统',
+    },
     children: [
       {
         path: '/welcome',
         component: Welcome,
         meta: {
-          title: '芝士 | Welcome'
+          title: '主页 | 芝士管理系统',
+        }
+      },
+      {
+        path: '/users',
+        component: Users,
+        meta: {
+          title: '用户列表 | 芝士管理系统',
         }
       }
     ],
-    meta: {
-      title: '芝士管理系统'
-    }
   },
 ]
 
@@ -44,7 +52,7 @@ const router = new VueRouter({
 
 // 挂载路由导航守卫
 router.beforeEach((to, from, next) => {
-  // 网页标题为对应路由的title值
+  // 各个路由显示的title
   window.document.title = to.meta.title;
   // 如果直接访问的是登录页面
   if (to.path === '/login') {

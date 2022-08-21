@@ -7,9 +7,13 @@
 
 <script>
 export default {
-  name: 'app'
+  name: 'app',
 }
 </script>
 
-<style>
+<style lang="less">
+body {
+  margin: 0;
+  padding: 0;
+}
 </style>

@@ -4,7 +4,7 @@
     <el-header>
       <div>
         <img src="../assets/miniLogo.png" alt="" />
-        <span>后台管理系统</span>
+        <span>芝士后台管理系统</span>
       </div>
       <el-button type="info" @click="logout">退出</el-button>
     </el-header>
@@ -17,6 +17,7 @@
         <!-- 侧边栏导航 -->
         <!-- unique-opened 是否保持一个菜单栏打开 ，直接简写成unique-opened时值为true-->
         <!-- collapse 是否折叠侧边栏 -->
+        <!-- router 是否开启路由模式 -->
         <el-menu
           background-color="#333744"
           text-color="#fff"
@@ -24,6 +25,8 @@
           :unique-opened="true"
           :collapse="isCollapse"
           :collapse-transition="false"
+          :router="true"
+          :default-active="activePath"
         >
           <!-- 一级菜单 -->
           <!-- 因为index只能接收字符串，所以需要把item.id转化为字符串 -->
@@ -41,9 +44,10 @@
             </template>
             <!-- 二级菜单 -->
             <el-menu-item
-              :index="chilItem.id.toString()"
+              :index="'/' + chilItem.path.toString()"
               v-for="chilItem in item.children"
               :key="chilItem.id"
+              @click="saveNavState('/' + chilItem.path.toString())"
             >
               <!-- 二级菜单模版 -->
               <template slot="title">
@@ -82,10 +86,13 @@ export default {
       },
       // 侧边栏是否折叠 false为不折叠
       isCollapse: false,
+      // 被激活的链接地址
+      activePath: '',
     }
   },
   created() {
     this.getMenusList()
+    this.activePath = window.sessionStorage.getItem('activePath')
   },
   methods: {
     // 退出功能
@@ -107,6 +114,11 @@ export default {
     // 点击按钮，实现侧边栏折叠和展开
     toggleCollapse() {
       this.isCollapse = !this.isCollapse
+    },
+    // 保存连接的激活状态
+    saveNavState(activePath) {
+      window.sessionStorage.setItem('activePath', activePath)
+      this.activePath = activePath
     },
   },
 }
