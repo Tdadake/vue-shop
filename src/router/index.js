@@ -5,6 +5,7 @@ import Home from '../components/Home'
 import Welcome from '../components/Welcome'
 import Users from '../components/user/Users'
 import Rights from '../components/authority/Rights'
+import Roles from '../components/authority/Roles'
 
 Vue.use(VueRouter)
 
@@ -48,6 +49,13 @@ const routes = [
         component: Rights,
         meta: {
           title: '权限列表 | 芝士管理系统'
+        }
+      },
+      {
+        path: '/roles',
+        component: Roles,
+        meta: {
+          title: '角色列表 | 芝士管理系统'
         }
       }
     ],
