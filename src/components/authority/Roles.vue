@@ -91,7 +91,7 @@
               size="mini"
               type="warning"
               icon="el-icon-setting"
-              @click="showSetRightDialog()"
+              @click="showSetRightDialog(scope.row)"
               >分配权限</el-button
             >
           </template>
@@ -155,14 +155,22 @@
     <el-dialog
       title="分配权限"
       :visible.sync="setRightDialogVisible"
-      width="50%"
+      width="40%"
+      @close="setRightDialogClosed()"
     >
-      <span>这是一段信息</span>
+      <!-- 树形控件展示权限信息 -->
+      <el-tree
+        :data="rightsList"
+        :props="treeProps"
+        node-key="id"
+        :default-checked-keys="defKeys"
+        ref="treeRef"
+        show-checkbox
+        default-expand-all
+      ></el-tree>
       <span slot="footer" class="dialog-footer">
         <el-button @click="setRightDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="setRightDialogVisible = false"
-          >确 定</el-button
-        >
+        <el-button type="primary" @click="allotRights()">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -212,6 +220,15 @@ export default {
       setRightDialogVisible: false,
       // 获取的权限数据
       rightsList: [],
+      // 树形控件的属性绑定对象
+      treeProps: {
+        children: 'children',
+        label: 'authName',
+      },
+      // 默认选中的权限的id
+      defKeys: [],
+      // 即将分配权限角色的id
+      roleId: '',
     }
   },
   created() {
@@ -350,7 +367,9 @@ export default {
       }
     },
     // 展示分配权限的对话框
-    async showSetRightDialog() {
+    async showSetRightDialog(role) {
+      // 保存打开的分配权限对话框对应角色的id
+      this.roleId = role.id
       // 获取所有权限数据
       const { data: res } = await this.$http.get('rights/tree')
       if (res.meta.status !== 200) {
@@ -358,7 +377,47 @@ export default {
       } else {
         // 把获取的权限数据保存到rightsList
         this.rightsList = res.data
+        // 递归获取三级节点的id
+        this.getLeafKeys(role, this.defKeys)
         this.setRightDialogVisible = true
+      }
+    },
+    // 通过递归的形式,获取角色下所有的三级权限的id,并保存到defKeys数组中
+    getLeafKeys(node, arr) {
+      // 不包含children属性就是三级节点
+      if (!node.children) {
+        return arr.push(node.id)
+      }
+      node.children.forEach((item) => {
+        this.getLeafKeys(item, arr)
+      })
+    },
+    // 监听分配权限对话框的关闭事件
+    setRightDialogClosed() {
+      // 关闭后初始化defKeys
+      this.defKeys = []
+    },
+    // 点击确定后为角色分配权限
+    async allotRights() {
+      const keys = [
+        ...this.$refs.treeRef.getCheckedKeys(),
+        ...this.$refs.treeRef.getHalfCheckedKeys(),
+      ]
+      const idStr = keys.join(',')
+      const { data: res } = await this.$http.post(
+        `roles/${this.roleId}/rights`,
+        {
+          rids: idStr,
+        }
+      )
+      if (res.meta.status !== 200) {
+        this.$message.error('分配权限失败')
+      } else {
+        this.$message.success('分配权限成功')
+        // 刷新权限列表
+        this.getRolesList()
+        // 关闭权限对话框
+        this.setRightDialogVisible = false
       }
     },
   },
