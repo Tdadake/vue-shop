@@ -6,6 +6,7 @@ import Welcome from '../components/Welcome'
 import Users from '../components/user/Users'
 import Rights from '../components/authority/Rights'
 import Roles from '../components/authority/Roles'
+import Cate from '../components/goods/Cate'
 
 Vue.use(VueRouter)
 
@@ -56,6 +57,13 @@ const routes = [
         component: Roles,
         meta: {
           title: '角色列表 | 芝士管理系统'
+        }
+      },
+      {
+        path: '/categories',
+        component: Cate,
+        meta: {
+          title: '商品分类 | 芝士管理系统'
         }
       }
     ],
