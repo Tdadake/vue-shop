@@ -33,7 +33,9 @@ import {
   Tabs,
   TabPane,
   Steps,
-  Step
+  Step,
+  CheckboxGroup,
+  Checkbox
 } from 'element-ui'
 
 Vue.use(Button)
@@ -68,6 +70,8 @@ Vue.use(Tabs)
 Vue.use(TabPane)
 Vue.use(Steps)
 Vue.use(Step)
+Vue.use(CheckboxGroup)
+Vue.use(Checkbox)
 // 把Message绑定到Vue原型上
 Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm
