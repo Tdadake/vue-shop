@@ -8,6 +8,8 @@ import Rights from '../components/authority/Rights'
 import Roles from '../components/authority/Roles'
 import Cate from '../components/goods/Cate'
 import Params from '../components/goods/Params'
+import List from '../components/goods/List'
+import Add from '../components/goods/Add'
 
 Vue.use(VueRouter)
 
@@ -72,6 +74,20 @@ const routes = [
         component: Params,
         meta: {
           title: '分类参数 | 芝士管理系统'
+        }
+      },
+      {
+        path: '/goods',
+        component: List,
+        meta: {
+          title: '商品列表 | 芝士管理系统'
+        }
+      },
+      {
+        path: '/goods/add',
+        component: Add,
+        meta: {
+          title: '添加商品 | 芝士管理系统'
         }
       }
     ],
