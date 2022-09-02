@@ -11,7 +11,6 @@
         class="login_form"
         :model="loginForm"
         :rules="loginFormRules"
-        @submit.native.prevent
       >
         <!-- 用户名 -->
         <el-form-item prop="username">
