@@ -6,6 +6,12 @@ import './plugins/element.js'
 import './assets/fonts/iconfont.css'
 // 导入全局样式表
 import './assets/css/global.css'
+// 导入富文本编辑器
+import VueQuillEditor from 'vue-quill-editor'
+// 导入富文本编辑器的样式
+import 'quill/dist/quill.core.css' // import styles
+import 'quill/dist/quill.snow.css' // for snow theme
+import 'quill/dist/quill.bubble.css' // for bubble theme
 
 import TreeTable from 'vue-table-with-tree-grid'
 
@@ -25,6 +31,9 @@ Vue.prototype.$http = axios
 Vue.config.productionTip = false
 
 Vue.component('tree-table', TreeTable)
+
+// 把富文本编辑器注册全局组件
+Vue.use(VueQuillEditor)
 
 // 返回时间的过滤器
 Vue.filter('dateFormat', function (originVal) {
