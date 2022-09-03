@@ -10,6 +10,7 @@ import Cate from '../components/goods/Cate'
 import Params from '../components/goods/Params'
 import List from '../components/goods/List'
 import Add from '../components/goods/Add'
+import Order from '../components/order/Order'
 
 Vue.use(VueRouter)
 
@@ -88,6 +89,13 @@ const routes = [
         component: Add,
         meta: {
           title: '添加商品 | 芝士管理系统'
+        }
+      },
+      {
+        path: '/orders',
+        component: Order,
+        meta: {
+          title: '订单列表 | 芝士管理系统'
         }
       }
     ],
