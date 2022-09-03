@@ -5,11 +5,10 @@
 </template>
 
 <script>
-  export default {
-    
-  }
+export default {
+  name: 'shopWelcome'
+}
 </script>
 
 <style lang="less" scoped>
-
 </style>

@@ -133,8 +133,8 @@
 // 导入loash
 import _ from 'lodash'
 export default {
-  name: 'Add',
-  data() {
+  name: 'shopAdd',
+  data () {
     return {
       // 控制步骤条走到哪一步
       activeIndex: '0',
@@ -151,25 +151,25 @@ export default {
         // 商品的详情描述
         goods_introduce: '',
         // 商品的动态参数和静态属性
-        attrs: [],
+        attrs: []
       },
       // 表单的验证规则
       addFormRules: {
         goods_name: [
-          { required: true, message: '请输入商品名称', trigger: 'blur' },
+          { required: true, message: '请输入商品名称', trigger: 'blur' }
         ],
         goods_price: [
-          { required: true, message: '请输入商品价格', trigger: 'blur' },
+          { required: true, message: '请输入商品价格', trigger: 'blur' }
         ],
         goods_weight: [
-          { required: true, message: '请输入商品重量', trigger: 'blur' },
+          { required: true, message: '请输入商品重量', trigger: 'blur' }
         ],
         goods_number: [
-          { required: true, message: '请输入商品数量', trigger: 'blur' },
+          { required: true, message: '请输入商品数量', trigger: 'blur' }
         ],
         goods_cat: [
-          { required: true, message: '请输入商品f分类', trigger: 'blur' },
-        ],
+          { required: true, message: '请输入商品f分类', trigger: 'blur' }
+        ]
       },
       // 商品分类列表
       cateList: [],
@@ -178,7 +178,7 @@ export default {
         value: 'cat_id',
         label: 'cat_name',
         children: 'children',
-        expandTrigger: 'hover',
+        expandTrigger: 'hover'
       },
       // 商品动态参数列表
       manyTableData: [],
@@ -188,29 +188,29 @@ export default {
       uploadURL: 'http://127.0.0.1:9000/api/private/v1/upload',
       // 图片上传的请求头对象
       headerObj: {
-        Authorization: window.sessionStorage.getItem('token'),
+        Authorization: window.sessionStorage.getItem('token')
       },
       // 图片预览的数据
       previewPath: '',
       // 控制图片预览对话框展示与隐藏
-      previewDialogVisible: false,
+      previewDialogVisible: false
     }
   },
-  created() {
+  created () {
     this.getCateList()
   },
   computed: {
-    cateId() {
+    cateId () {
       if (this.addForm.goods_cat.length === 3) {
         return this.addForm.goods_cat[2]
       } else {
         return null
       }
-    },
+    }
   },
   methods: {
     // 获取商品分类数据
-    async getCateList() {
+    async getCateList () {
       const { data: res } = await this.$http.get('categories')
       if (res.meta.status !== 200) {
         this.$message.error('获取商品分类失败')
@@ -220,26 +220,26 @@ export default {
       }
     },
     // 级联选择框中选项变化,会触发此函数
-    handleChange() {
+    handleChange () {
       if (this.addForm.goods_cat.length !== 3) {
         this.addForm.goods_cat = []
       }
     },
     // 判断是否能切换tabs标签的事件
-    beforeTabsLeave(_activeName, oldActiveNave) {
+    beforeTabsLeave (_activeName, oldActiveNave) {
       if (oldActiveNave === '0' && this.addForm.goods_cat.length !== 3) {
         this.$message.error('请先选择商品分类')
         return false
       }
     },
     // tabs标签切换后触发
-    async tabClicked() {
+    async tabClicked () {
       // 值为1是获取商品动态参数,值为2获取商品静态属性
       if (this.activeIndex === '1') {
         const { data: res } = await this.$http.get(
           `categories/${this.cateId}/attributes`,
           {
-            params: { sel: 'many' },
+            params: { sel: 'many' }
           }
         )
         if (res.meta.status !== 200) {
@@ -254,7 +254,7 @@ export default {
         const { data: res } = await this.$http.get(
           `categories/${this.cateId}/attributes`,
           {
-            params: { sel: 'only' },
+            params: { sel: 'only' }
           }
         )
         if (res.meta.status !== 200) {
@@ -264,20 +264,20 @@ export default {
       }
     },
     // 上传图片后处理图片预览效果
-    handlePreview(file) {
+    handlePreview (file) {
       const u = 'http://127.0.0.1:9000/'
       this.previewPath = u + file.response.data.tmp_path
       this.previewDialogVisible = true
     },
     // 监听图片上传成功的事件
-    handleSuccess(response) {
+    handleSuccess (response) {
       // 拼接得到一个图片信息对象
       const picInfo = { pic: response.data.tmp_path }
       // 将图片信息添加到pics中
       this.addForm.pics.push(picInfo)
     },
     // 处理移出图片的操作
-    handleRemove(file) {
+    handleRemove (file) {
       // 获取将要删除图片的临时路径
       const filePath = file.response.data.tmp_path
       // 从pics数组中找到这个图片对应的索引值,x代表pics中的项
@@ -286,7 +286,7 @@ export default {
       this.addForm.pics.splice(index, 1)
     },
     // 点击按钮添加商品
-    addGoods() {
+    addGoods () {
       this.$refs.addFormRef.validate(async (vaild) => {
         if (!vaild) {
           return this.$message.error('请填写必要的表单项')
@@ -299,14 +299,14 @@ export default {
         this.manyTableData.forEach((item) => {
           const newInfo = {
             attr_id: item.attr_id,
-            attr_vals: item.attr_vals.join(' '),
+            attr_vals: item.attr_vals.join(' ')
           }
           this.addForm.attrs.push(newInfo)
         })
         this.onlyTableData.forEach((item) => {
           const newInfo = {
             attr_id: item.attr_id,
-            attr_vals: item.attr_vals,
+            attr_vals: item.attr_vals
           }
           this.addForm.attrs.push(newInfo)
         })
@@ -321,8 +321,8 @@ export default {
           this.$router.push('/goods')
         }
       })
-    },
-  },
+    }
+  }
 }
 </script>
 

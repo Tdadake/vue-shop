@@ -148,14 +148,14 @@
 // 导入城市数据
 import cityData from './citydata'
 export default {
-  name: 'Order',
-  data() {
+  name: 'shopOrder',
+  data () {
     return {
       // 查询参数对象
       queryInfo: {
         query: '',
         pagenum: 1,
-        pagesize: 10,
+        pagesize: 10
       },
       // 订单列表数据
       orderList: [],
@@ -166,16 +166,16 @@ export default {
       // 修改地址的数据对象
       addressForm: {
         region: [],
-        detailedAddress: '',
+        detailedAddress: ''
       },
       // 修改地址的验证规则
       addressFormRules: {
         region: [
-          { required: true, message: '请选择省市区/县', trigger: 'blur' },
+          { required: true, message: '请选择省市区/县', trigger: 'blur' }
         ],
         detailedAddress: [
-          { required: true, message: '请输入详细地址', trigger: 'blur' },
-        ],
+          { required: true, message: '请输入详细地址', trigger: 'blur' }
+        ]
       },
       // 修改地址中选择城市的级联选择器的数据
       cityData: cityData,
@@ -187,74 +187,74 @@ export default {
           time: '2018-05-10 09:39:00',
           ftime: '2018-05-10 09:39:00',
           context: '已签收,感谢使用顺丰,期待再次为您服务',
-          location: '',
+          location: ''
         },
         {
           time: '2018-05-10 08:23:00',
           ftime: '2018-05-10 08:23:00',
           context:
             '[北京市]北京海淀育新小区营业点派件员 顺丰速运 95338正在为您派件',
-          location: '',
+          location: ''
         },
         {
           time: '2018-05-10 07:32:00',
           ftime: '2018-05-10 07:32:00',
           context: '快件到达 [北京海淀育新小区营业点]',
-          location: '',
+          location: ''
         },
         {
           time: '2018-05-10 02:03:00',
           ftime: '2018-05-10 02:03:00',
           context:
             '快件在[北京顺义集散中心]已装车,准备发往 [北京海淀育新小区营业点]',
-          location: '',
+          location: ''
         },
         {
           time: '2018-05-09 23:05:00',
           ftime: '2018-05-09 23:05:00',
           context: '快件到达 [北京顺义集散中心]',
-          location: '',
+          location: ''
         },
         {
           time: '2018-05-09 21:21:00',
           ftime: '2018-05-09 21:21:00',
           context: '快件在[北京宝胜营业点]已装车,准备发往 [北京顺义集散中心]',
-          location: '',
+          location: ''
         },
         {
           time: '2018-05-09 13:07:00',
           ftime: '2018-05-09 13:07:00',
           context: '顺丰速运 已收取快件',
-          location: '',
+          location: ''
         },
         {
           time: '2018-05-09 12:25:03',
           ftime: '2018-05-09 12:25:03',
           context: '卖家发货',
-          location: '',
+          location: ''
         },
         {
           time: '2018-05-09 12:22:24',
           ftime: '2018-05-09 12:22:24',
           context: '您的订单将由HLA（北京海淀区清河中街店）门店安排发货。',
-          location: '',
+          location: ''
         },
         {
           time: '2018-05-08 21:36:04',
           ftime: '2018-05-08 21:36:04',
           context: '商品已经下单',
-          location: '',
-        },
-      ],
+          location: ''
+        }
+      ]
     }
   },
-  created() {
+  created () {
     this.getOrderList()
   },
   methods: {
-    async getOrderList() {
+    async getOrderList () {
       const { data: res } = await this.$http.get('orders', {
-        params: this.queryInfo,
+        params: this.queryInfo
       })
       if (res.meta.status !== 200) {
         return this.$message.error('获取订单列表失败')
@@ -263,29 +263,29 @@ export default {
       this.total = res.data.total
     },
     // 监听每页显示多少个商品的事件
-    handleSizeChange(newSize) {
+    handleSizeChange (newSize) {
       this.queryInfo.pagesize = newSize
       this.getOrderList()
     },
     // 监听页码的改变
-    handleCurrentChange(newPage) {
+    handleCurrentChange (newPage) {
       this.queryInfo.pagenum = newPage
       this.getOrderList()
     },
     // 点击后弹出修改地址对话框
-    showDialog() {
+    showDialog () {
       this.addressDialogVisible = true
     },
     // 监听修改地址对话框关闭的事件
-    addressDialogClosed() {
+    addressDialogClosed () {
       // 重置表单
       this.$refs.addressForm.resetFields()
     },
     // 点击后弹出物流进度对话框
-    showProgressBox() {
+    showProgressBox () {
       this.progressDialogVisible = true
-    },
-  },
+    }
+  }
 }
 </script>
 

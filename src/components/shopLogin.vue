@@ -33,10 +33,7 @@
         </el-form-item>
         <!-- 按钮 -->
         <el-form-item class="btns">
-          <el-button
-            type="primary"
-            @click="login('loginFormRef')"
-            native-type="submit"
+          <el-button type="primary" @click="login('loginFormRef')"
             >登录</el-button
           >
           <el-button type="info" @click="resetLoginForm('loginFormRef')"
@@ -50,13 +47,13 @@
 
 <script>
 export default {
-  name: 'Login',
-  data() {
+  name: 'shopLogin',
+  data () {
     return {
       // 登录表单的数据绑定对象
       loginForm: {
         username: '',
-        password: '',
+        password: ''
       },
       // 表单数据验证规则对象
       loginFormRules: {
@@ -67,8 +64,8 @@ export default {
             min: 2,
             max: 10,
             message: '长度在 3 到 18 个字符',
-            trigger: 'blur',
-          },
+            trigger: 'blur'
+          }
         ],
         // 验证密码合法性
         password: [
@@ -77,20 +74,20 @@ export default {
             min: 6,
             max: 16,
             message: '长度在 6 到 16 个字符',
-            trigger: 'blur',
-          },
-        ],
-      },
+            trigger: 'blur'
+          }
+        ]
+      }
     }
   },
   methods: {
     // 重置按钮，清空输入框
-    resetLoginForm(formName) {
+    resetLoginForm (formName) {
       this.$refs[formName].resetFields()
       // this.$refs.loginFormRef.resetFields();
     },
     // 登录按钮，预验证
-    login(formName) {
+    login (formName) {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
           // 发送请求，携带username & password
@@ -109,8 +106,8 @@ export default {
           this.$message.error('请输入正确的用户名或密码！')
         }
       })
-    },
-  },
+    }
+  }
 }
 </script>
 

@@ -178,8 +178,8 @@
 
 <script>
 export default {
-  name: 'Roles',
-  data() {
+  name: 'shopRoles',
+  data () {
     return {
       // 角色列表数据
       rolesList: [],
@@ -188,18 +188,18 @@ export default {
       // 添加角色的数据
       addForm: {
         roleName: '',
-        roleDesc: '',
+        roleDesc: ''
       },
       // 修改用户表单的验证规则对象
       addFormRules: {
         roleName: [
           { required: true, message: '请输入角色名称', trigger: 'blur' },
-          { min: 2, max: 10, message: '长度在 2 ~ 10 个字符', trigger: 'blur' },
+          { min: 2, max: 10, message: '长度在 2 ~ 10 个字符', trigger: 'blur' }
         ],
         roleDesc: [
           { required: true, message: '请输入角色描述', trigger: 'blur' },
-          { min: 2, max: 20, message: '长度在 2 ~ 20 个字符', trigger: 'blur' },
-        ],
+          { min: 2, max: 20, message: '长度在 2 ~ 20 个字符', trigger: 'blur' }
+        ]
       },
       // 查询到的角色信息对象
       editForm: {},
@@ -207,12 +207,12 @@ export default {
       editFormRules: {
         roleName: [
           { required: true, message: '请输入角色名称', trigger: 'blur' },
-          { min: 2, max: 10, message: '长度在 2 ~ 10 个字符', trigger: 'blur' },
+          { min: 2, max: 10, message: '长度在 2 ~ 10 个字符', trigger: 'blur' }
         ],
         roleDesc: [
           { required: true, message: '请输入角色描述', trigger: 'blur' },
-          { min: 2, max: 20, message: '长度在 2 ~ 20 个字符', trigger: 'blur' },
-        ],
+          { min: 2, max: 20, message: '长度在 2 ~ 20 个字符', trigger: 'blur' }
+        ]
       },
       // 控制添加用户对话框的显示与隐藏
       editDialogVisible: false,
@@ -223,20 +223,20 @@ export default {
       // 树形控件的属性绑定对象
       treeProps: {
         children: 'children',
-        label: 'authName',
+        label: 'authName'
       },
       // 默认选中的权限的id
       defKeys: [],
       // 即将分配权限角色的id
-      roleId: '',
+      roleId: ''
     }
   },
-  created() {
+  created () {
     this.getRolesList()
   },
   methods: {
     // 获取角色列表
-    async getRolesList() {
+    async getRolesList () {
       const { data: res } = await this.$http.get('roles')
       if (res.meta.status !== 200) {
         this.$message.error('获取角色列表失败')
@@ -245,12 +245,12 @@ export default {
       }
     },
     // 监听添加角色对话框的关闭事件
-    addDialogClosed() {
+    addDialogClosed () {
       // 对话框关闭后,重置表单
       this.$refs.addFormRef.resetFields()
     },
     // 点击按钮后添加新角色
-    addRoles() {
+    addRoles () {
       // validata(element的方法)预验证
       this.$refs.addFormRef.validate(async (valid) => {
         if (!valid) return
@@ -268,7 +268,7 @@ export default {
       })
     },
     // 展示编辑角色对话框
-    async showEditDialog(id) {
+    async showEditDialog (id) {
       // 展示修改角色对话框后,获取对应的用户信息
       const { data: res } = await this.$http.get('roles/' + id)
       if (res.meta.status !== 200) {
@@ -281,11 +281,11 @@ export default {
       }
     },
     // 监听编辑角色对话框的关闭事件
-    editDialogClosed() {
+    editDialogClosed () {
       this.$refs.editFormRef.resetFields()
     },
     // 编辑角色信息并提交
-    editRolesInfo() {
+    editRolesInfo () {
       this.$refs.editFormRef.validate(async (valid) => {
         if (!valid) return
         // 验证通过后发起修改信息请求
@@ -293,7 +293,7 @@ export default {
           'roles/' + this.editForm.roleId,
           {
             roleName: this.editForm.roleName,
-            roleDesc: this.editForm.roleDesc,
+            roleDesc: this.editForm.roleDesc
           }
         )
         if (res.meta.status !== 200) {
@@ -308,7 +308,7 @@ export default {
       })
     },
     // 根据id删除对应的用户信息
-    async removeRolesById(id) {
+    async removeRolesById (id) {
       // 弹窗询问用户是否删除数据
       const confirmResult = await this.$confirm(
         '此操作将永久删除该用户, 是否继续?',
@@ -316,7 +316,7 @@ export default {
         {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
-          type: 'warning',
+          type: 'warning'
         }
       ).catch((err) => err)
       /*
@@ -336,7 +336,7 @@ export default {
       }
     },
     // 根据id删除对应的权限
-    async removeRightById(role, rightId) {
+    async removeRightById (role, rightId) {
       // 弹窗提示用户是否删除权限
       const confirmResult = await this.$confirm(
         '此操作将永久删除该权限, 是否继续?',
@@ -344,7 +344,7 @@ export default {
         {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
-          type: 'warning',
+          type: 'warning'
         }
       ).catch((err) => err)
       /*
@@ -367,7 +367,7 @@ export default {
       }
     },
     // 展示分配权限的对话框
-    async showSetRightDialog(role) {
+    async showSetRightDialog (role) {
       // 保存打开的分配权限对话框对应角色的id
       this.roleId = role.id
       // 获取所有权限数据
@@ -383,7 +383,7 @@ export default {
       }
     },
     // 通过递归的形式,获取角色下所有的三级权限的id,并保存到defKeys数组中
-    getLeafKeys(node, arr) {
+    getLeafKeys (node, arr) {
       // 不包含children属性就是三级节点
       if (!node.children) {
         return arr.push(node.id)
@@ -393,21 +393,21 @@ export default {
       })
     },
     // 监听分配权限对话框的关闭事件
-    setRightDialogClosed() {
+    setRightDialogClosed () {
       // 关闭后初始化defKeys
       this.defKeys = []
     },
     // 点击确定后为角色分配权限
-    async allotRights() {
+    async allotRights () {
       const keys = [
         ...this.$refs.treeRef.getCheckedKeys(),
-        ...this.$refs.treeRef.getHalfCheckedKeys(),
+        ...this.$refs.treeRef.getHalfCheckedKeys()
       ]
       const idStr = keys.join(',')
       const { data: res } = await this.$http.post(
         `roles/${this.roleId}/rights`,
         {
-          rids: idStr,
+          rids: idStr
         }
       )
       if (res.meta.status !== 200) {
@@ -419,8 +419,8 @@ export default {
         // 关闭权限对话框
         this.setRightDialogVisible = false
       }
-    },
-  },
+    }
+  }
 }
 </script>
 

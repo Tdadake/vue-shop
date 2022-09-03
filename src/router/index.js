@@ -1,17 +1,17 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '../components/Login'
-import Home from '../components/Home'
-import Welcome from '../components/Welcome'
-import Users from '../components/user/Users'
-import Rights from '../components/authority/Rights'
-import Roles from '../components/authority/Roles'
-import Cate from '../components/goods/Cate'
-import Params from '../components/goods/Params'
-import List from '../components/goods/List'
-import Add from '../components/goods/Add'
-import Order from '../components/order/Order'
-import Report from '../components/report/Report'
+import Login from '../components/shopLogin'
+import Home from '../components/shopHome'
+import Welcome from '../components/shopWelcome'
+import Users from '../components/user/shopUsers'
+import Rights from '../components/authority/shopRights'
+import Roles from '../components/authority/shopRoles'
+import Cate from '../components/goods/shopCate'
+import Params from '../components/goods/shopParams'
+import List from '../components/goods/shopList'
+import Add from '../components/goods/shopAdd'
+import Order from '../components/order/shopOrder'
+import Report from '../components/report/shopReport'
 
 Vue.use(VueRouter)
 
@@ -25,7 +25,7 @@ const routes = [
     path: '/login',
     component: Login,
     meta: {
-      title: '登录 | 芝士管理系统',
+      title: '登录 | 芝士管理系统'
     }
   },
   {
@@ -33,21 +33,21 @@ const routes = [
     component: Home,
     redirect: '/welcome',
     meta: {
-      title: '主页 | 芝士管理系统',
+      title: '主页 | 芝士管理系统'
     },
     children: [
       {
         path: '/welcome',
         component: Welcome,
         meta: {
-          title: '主页 | 芝士管理系统',
+          title: '主页 | 芝士管理系统'
         }
       },
       {
         path: '/users',
         component: Users,
         meta: {
-          title: '用户列表 | 芝士管理系统',
+          title: '用户列表 | 芝士管理系统'
         }
       },
       {
@@ -106,8 +106,8 @@ const routes = [
           title: '数据报表 | 芝士管理系统'
         }
       }
-    ],
-  },
+    ]
+  }
 ]
 
 const router = new VueRouter({
@@ -117,20 +117,20 @@ const router = new VueRouter({
 // 挂载路由导航守卫
 router.beforeEach((to, from, next) => {
   // 各个路由显示的title
-  window.document.title = to.meta.title;
+  window.document.title = to.meta.title
   // 如果直接访问的是登录页面
   if (to.path === '/login') {
-    next();
+    next()
   } else {
     // 如果直接访问的不是登录页面
     // 获取token
-    const tokenStr = window.sessionStorage.getItem('token');
+    const tokenStr = window.sessionStorage.getItem('token')
     if (!tokenStr) {
-      next('./login');
+      next('./login')
     } else {
-      next();
+      next()
     }
   }
-});
+})
 
 export default router

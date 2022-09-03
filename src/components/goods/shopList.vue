@@ -99,29 +99,29 @@
 
 <script>
 export default {
-  name: 'List',
-  data() {
+  name: 'shopList',
+  data () {
     return {
       // 查询参数对象
       queryInfo: {
         query: '',
         pagenum: 1,
-        pagesize: 10,
+        pagesize: 10
       },
       // 商品列表
       goodsList: [],
       // 总数据的条数
-      total: 0,
+      total: 0
     }
   },
-  created() {
+  created () {
     this.getGoodSlist()
   },
   methods: {
     // 获取商品列表
-    async getGoodSlist() {
+    async getGoodSlist () {
       const { data: res } = await this.$http.get('goods', {
-        params: this.queryInfo,
+        params: this.queryInfo
       })
       if (res.meta.status !== 200) {
         this.$message.error('获取商品列表失败')
@@ -131,17 +131,17 @@ export default {
       }
     },
     // 监听每页显示多少个商品的事件
-    handleSizeChange(newSize) {
+    handleSizeChange (newSize) {
       this.queryInfo.pagesize = newSize
       this.getGoodSlist()
     },
     // 监听页码的改变
-    handleCurrentChange(newPage) {
+    handleCurrentChange (newPage) {
       this.queryInfo.pagenum = newPage
       this.getGoodSlist()
     },
     // 删除商品功能
-    async removeById(id) {
+    async removeById (id) {
       // 弹窗询问用户是否删除数据
       const confirmResult = await this.$confirm(
         '此操作将永久删除该参数, 是否继续?',
@@ -149,7 +149,7 @@ export default {
         {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
-          type: 'warning',
+          type: 'warning'
         }
       ).catch((err) => err)
       /*
@@ -168,10 +168,10 @@ export default {
       }
     },
     // 触发该事件后跳转到添加商品页面
-    goAddGoods() {
+    goAddGoods () {
       this.$router.push('/goods/add')
-    },
-  },
+    }
+  }
 }
 </script>
 

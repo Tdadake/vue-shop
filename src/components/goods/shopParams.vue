@@ -221,8 +221,8 @@
 
 <script>
 export default {
-  name: 'Params',
-  data() {
+  name: 'shopParams',
+  data () {
     return {
       // 商品分类列表
       cateList: [],
@@ -231,7 +231,7 @@ export default {
         value: 'cat_id',
         label: 'cat_name',
         children: 'children',
-        expandTrigger: 'hover',
+        expandTrigger: 'hover'
       },
       // 级联选择框数据双向绑定数组
       selectedCateKeys: [],
@@ -245,17 +245,17 @@ export default {
       addDialogVisible: false,
       // 保存添加参数表单数据对象
       addForm: {
-        attr_name: '',
+        attr_name: ''
       },
       // 添加表单验证规则
       addFormRules: {
         attr_name: [
           {
             required: true,
-            message: `请输入参数名称`,
-            trigger: 'blur',
-          },
-        ],
+            message: '请输入参数名称',
+            trigger: 'blur'
+          }
+        ]
       },
       // 控制修改对话框的显示与隐藏
       editDialogVisible: false,
@@ -266,42 +266,42 @@ export default {
         attr_name: [
           {
             required: true,
-            message: `请输入参数名称`,
-            trigger: 'blur',
-          },
-        ],
-      },
+            message: '请输入参数名称',
+            trigger: 'blur'
+          }
+        ]
+      }
     }
   },
-  created() {
+  created () {
     this.getCateList()
   },
   computed: {
     // 如果按钮需要被禁用,则返回true,否则返回false
-    isBtnDisabled() {
+    isBtnDisabled () {
       if (this.selectedCateKeys.length !== 3) {
         return true
       }
       return false
     },
     // 当前选中的三级分类的id
-    cateId() {
+    cateId () {
       if (this.selectedCateKeys.length === 3) {
         return this.selectedCateKeys[2]
       }
       return null
     },
     // 动态显示添加参数/属性对话框的名称
-    titleText() {
+    titleText () {
       if (this.activeName === 'many') {
         return '动态参数'
       }
       return '静态属性'
-    },
+    }
   },
   methods: {
     // 获取所有商品分类列表
-    async getCateList() {
+    async getCateList () {
       const { data: res } = await this.$http.get('categories')
       if (res.meta.status !== 200) {
         return this.$message.error('获取商品分类失败')
@@ -309,15 +309,15 @@ export default {
       this.cateList = res.data
     },
     // 级联选择框中选项变化,会触发此函数
-    handleChange() {
+    handleChange () {
       this.getParamsData()
     },
     // tabs页签点击事件的处理函数
-    handleTabClick() {
+    handleTabClick () {
       this.getParamsData()
     },
     // 获取参数的列表数据
-    async getParamsData() {
+    async getParamsData () {
       // 判断是否选择的是三级分类
       // 新版element的级联选择器默认只能选择最后一级
       if (this.selectedCateKeys.length !== 3) {
@@ -330,7 +330,7 @@ export default {
       const { data: res } = await this.$http.get(
         `categories/${this.cateId}/attributes`,
         {
-          params: { sel: this.activeName },
+          params: { sel: this.activeName }
         }
       )
       if (res.meta.status !== 200) {
@@ -353,18 +353,18 @@ export default {
       }
     },
     // 监听添加对话框的关闭事件
-    addDialogClosed() {
+    addDialogClosed () {
       this.$refs.addFormRef.resetFields()
     },
     // 点击按钮后提交数据
-    addParams() {
+    addParams () {
       this.$refs.addFormRef.validate(async (valid) => {
         if (!valid) return
         const { data: res } = await this.$http.post(
           `categories/${this.cateId}/attributes`,
           {
             attr_name: this.addForm.attr_name,
-            attr_sel: this.activeName,
+            attr_sel: this.activeName
           }
         )
         if (res.meta.status !== 201) {
@@ -377,11 +377,11 @@ export default {
       })
     },
     // 点击按钮展示修改对话框
-    async showEditDialog(attr_id) {
+    async showEditDialog (attrId) {
       const { data: res } = await this.$http.get(
-        `categories/${this.cateId}/attributes/${attr_id}`,
+        `categories/${this.cateId}/attributes/${attrId}`,
         {
-          params: { attr_sel: this.activeName },
+          params: { attr_sel: this.activeName }
         }
       )
       if (res.meta.status !== 200) {
@@ -391,19 +391,19 @@ export default {
       this.editDialogVisible = true
     },
     // 监听修改对话框关闭的事件
-    editDialogClosed() {
+    editDialogClosed () {
       // 关闭表单后初始化
       this.$refs.editFormRef.resetFields()
     },
     // 点击后提交修改的数据
-    editParams() {
+    editParams () {
       this.$refs.editFormRef.validate(async (valid) => {
         if (!valid) return
         const { data: res } = await this.$http.put(
           `categories/${this.cateId}/attributes/${this.editForm.attr_id}`,
           {
             attr_name: this.editForm.attr_name,
-            attr_sel: this.activeName,
+            attr_sel: this.activeName
           }
         )
         if (res.meta.status !== 200) {
@@ -416,7 +416,7 @@ export default {
       })
     },
     // 点击后删除参数
-    async removeParams(attr_id) {
+    async removeParams (attrId) {
       // 弹窗询问用户是否删除数据
       const confirmResult = await this.$confirm(
         '此操作将永久删除该参数, 是否继续?',
@@ -424,7 +424,7 @@ export default {
         {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
-          type: 'warning',
+          type: 'warning'
         }
       ).catch((err) => err)
       /*
@@ -435,7 +435,7 @@ export default {
         return this.$message.info('已取消删除')
       }
       const { data: res } = await this.$http.delete(
-        `categories/${this.cateId}/attributes/${attr_id}`
+        `categories/${this.cateId}/attributes/${attrId}`
       )
       if (res.meta.status !== 200) {
         this.$message.error('删除失败')
@@ -444,7 +444,7 @@ export default {
         this.getParamsData()
       }
     },
-    async saveAttrVals(row) {
+    async saveAttrVals (row) {
       // 发起请求,把数据保存到数据库中
       const { data: res } = await this.$http.put(
         `categories/${this.cateId}/attributes/${row.attr_id}`,
@@ -452,7 +452,7 @@ export default {
           attr_name: row.attr_name,
           attr_sel: row.attr_sel,
           // 服务器中vals是字符串,这里需要把数组转换成字符串
-          attr_vals: row.attr_vals.join(','),
+          attr_vals: row.attr_vals.join(',')
         }
       )
       if (res.meta.status !== 200) {
@@ -462,7 +462,7 @@ export default {
       }
     },
     // 文本框失去焦点或者按下enter都会触发
-    handleInputConfirm(row) {
+    handleInputConfirm (row) {
       if (row.inputValue.trim().length !== 0) {
         // 输入了合法的内容,则把内容push到vals中
         row.attr_vals.push(row.inputValue.trim())
@@ -473,7 +473,7 @@ export default {
       row.inputVisible = false
     },
     // 点击按钮显示文本框
-    showInput(row) {
+    showInput (row) {
       row.inputVisible = true
       // 自动获取焦点
       // $nextTick方法的作用: 当页面元素重新被渲染之后,才会调用回调函数
@@ -482,13 +482,13 @@ export default {
       })
     },
     // 点击关闭tag标签时根据i删除对应的动态参数的属性
-    handleClose(i, row) {
+    handleClose (i, row) {
       // 从第i个属性开始删除一个
       row.attr_vals.splice(i, 1)
       // 删除后保存到数据库中
       this.saveAttrVals(row)
-    },
-  },
+    }
+  }
 }
 </script>
 

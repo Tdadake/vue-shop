@@ -28,27 +28,27 @@
 
 <script>
 export default {
-  name: 'Rights',
-  data() {
+  name: 'shopRights',
+  data () {
     return {
-      rigthsList: [],
+      rigthsList: []
     }
   },
-  created() {
+  created () {
     // 获取所有的权限
     this.getRightList()
   },
   methods: {
     // 获取权限列表
-    async getRightList() {
+    async getRightList () {
       const { data: res } = await this.$http.get('rights/list')
       if (res.meta.status !== 200) {
         this.$message.error('获取权限列表失败')
       } else {
         this.rigthsList = res.data
       }
-    },
-  },
+    }
+  }
 }
 </script>
 

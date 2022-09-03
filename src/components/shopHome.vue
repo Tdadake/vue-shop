@@ -71,8 +71,8 @@
 
 <script>
 export default {
-  name: 'Home',
-  data() {
+  name: 'shopHome',
+  data () {
     return {
       // 左侧菜单数据
       menusList: [],
@@ -82,28 +82,28 @@ export default {
         103: 'iconfont icon-tijikongjian',
         101: 'iconfont icon-shangpin',
         102: 'iconfont icon-danju',
-        145: 'iconfont icon-baobiao',
+        145: 'iconfont icon-baobiao'
       },
       // 侧边栏是否折叠 false为不折叠
       isCollapse: false,
       // 被激活的链接地址
-      activePath: '',
+      activePath: ''
     }
   },
-  created() {
+  created () {
     this.getMenusList()
     this.activePath = window.sessionStorage.getItem('activePath')
   },
   methods: {
     // 退出功能
-    logout() {
+    logout () {
       // 清除token
       window.sessionStorage.clear()
       // 重定向到登录页
       this.$router.push('/login')
     },
     // 获取左侧的菜单
-    async getMenusList() {
+    async getMenusList () {
       const { data: res } = await this.$http.get('menus')
       if (res.meta.status !== 200) {
         this.$message.error(res.meta.msg)
@@ -112,15 +112,15 @@ export default {
       }
     },
     // 点击按钮，实现侧边栏折叠和展开
-    toggleCollapse() {
+    toggleCollapse () {
       this.isCollapse = !this.isCollapse
     },
     // 保存连接的激活状态
-    saveNavState(activePath) {
+    saveNavState (activePath) {
       window.sessionStorage.setItem('activePath', activePath)
       this.activePath = activePath
-    },
-  },
+    }
+  }
 }
 </script>
 
