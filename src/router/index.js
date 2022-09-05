@@ -1,17 +1,29 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '../components/shopLogin'
-import Home from '../components/shopHome'
-import Welcome from '../components/shopWelcome'
-import Users from '../components/user/shopUsers'
-import Rights from '../components/authority/shopRights'
-import Roles from '../components/authority/shopRoles'
-import Cate from '../components/goods/shopCate'
-import Params from '../components/goods/shopParams'
-import List from '../components/goods/shopList'
-import Add from '../components/goods/shopAdd'
-import Order from '../components/order/shopOrder'
-import Report from '../components/report/shopReport'
+// import Login from '../components/shopLogin'
+// import Home from '../components/shopHome'
+// import Welcome from '../components/shopWelcome'
+// import Users from '../components/user/shopUsers'
+// import Rights from '../components/authority/shopRights'
+// import Roles from '../components/authority/shopRoles'
+// import Cate from '../components/goods/shopCate'
+// import Params from '../components/goods/shopParams'
+// import List from '../components/goods/shopList'
+// import Add from '../components/goods/shopAdd'
+// import Order from '../components/order/shopOrder'
+// import Report from '../components/report/shopReport'
+const Login = () => import(/* webpackChunkName: "login_home_welcome" */ '../components/shopLogin')
+const Home = () => import(/* webpackChunkName: "login_home_welcome" */ '../components/shopHome')
+const Welcome = () => import(/* webpackChunkName: "login_home_welcome" */ '../components/shopWelcome')
+const Users = () => import(/* webpackChunkName: "users_right_roles" */ '../components/user/shopUsers')
+const Rights = () => import(/* webpackChunkName: "users_right_roles" */ '../components/authority/shopRights')
+const Roles = () => import(/* webpackChunkName: "users_right_roles" */ '../components/authority/shopRoles')
+const Cate = () => import(/* webpackChunkName: "cate_params" */ '../components/goods/shopCate')
+const Params = () => import(/* webpackChunkName: "cate_params" */ '../components/goods/shopParams')
+const List = () => import(/* webpackChunkName: "list_add" */ '../components/goods/shopList')
+const Add = () => import(/* webpackChunkName: "list_add" */ '../components/goods/shopAdd')
+const Order = () => import(/* webpackChunkName: "order_report" */ '../components/order/shopOrder')
+const Report = () => import(/* webpackChunkName: "order_report" */ '../components/report/shopReport')
 
 Vue.use(VueRouter)
 
